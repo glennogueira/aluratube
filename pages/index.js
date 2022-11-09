@@ -1,20 +1,15 @@
 import React from 'react'
 import config from '../config.json'
 import styled from 'styled-components'
-import { CSSReset } from '../src/components/CSSReset'
 import Menu from '../src/components/Menu'
 import { StyledTimeline } from '../src/components/Timeline'
 
 function HomePage() {
-  const estilosDaHomePage = {
-    // backgroundColor: 'red'
-  }
+const [valorDoFiltro, setValorDoFiltro] = React.useState('')
 
-  const [valorDoFiltro, setValorDoFiltro] = React.useState('')
 
   return (
-    <>
-      <CSSReset />
+    <>      
       <div
         style={{
           display: 'flex',
@@ -43,6 +38,8 @@ export default HomePage
 // }
 
 const StyledHeader = styled.div`
+  background-color: ${({ theme }) => theme.backgroundLevel1} ;
+
   img {
     width: 80px;
     height: 80px;
@@ -57,10 +54,11 @@ const StyledHeader = styled.div`
     gap: 16px;
   }
 `
-const StyledBanner = styled.div`
-  /* background-color: blue; */
+const StyledBanner = styled.div`  
   background-image: url(${({ bg }) => bg});
-  /* background-image: url(${config.bg}); */
+  /* background-image: url(${config.bg}); */ 
+  background-size: cover;
+  background-position: 0% 34% ;
   height: 230px;
 `
 function Header() {
