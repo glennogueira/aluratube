@@ -3,13 +3,32 @@ import config from '../config.json'
 import styled from 'styled-components'
 import Menu from '../src/components/Menu'
 import { StyledTimeline } from '../src/components/Timeline'
+import { videoService } from '../src/services/videoService'
 
 function HomePage() {
-const [valorDoFiltro, setValorDoFiltro] = React.useState('')
+  const service = videoService()
+  const [valorDoFiltro, setValorDoFiltro] = React.useState('')
+  const [playlists, setPlaylists] = React.useState({})
 
+  React.useEffect(() => {
+    console.log('useEffect')
+    service.getAllVideos().then(dados => {
+      console.log(dados.data)
+      const novasPlaylists = { ...playlists }
+      dados.data.forEach(video => {
+        if (!novasPlaylists[video.playlist]) {
+          novasPlaylists[video.playlist] = []
+        }
+        novasPlaylists[video.playlist].push(video)
+      })
+      setPlaylists(novasPlaylists)
+    })
+  }, [])
+
+  console.log('Playlists Pronto', playlists)
 
   return (
-    <>      
+    <>
       <div
         style={{
           display: 'flex',
@@ -38,7 +57,7 @@ export default HomePage
 // }
 
 const StyledHeader = styled.div`
-  background-color: ${({ theme }) => theme.backgroundLevel1} ;
+  background-color: ${({ theme }) => theme.backgroundLevel1};
 
   img {
     width: 80px;
@@ -54,11 +73,11 @@ const StyledHeader = styled.div`
     gap: 16px;
   }
 `
-const StyledBanner = styled.div`  
+const StyledBanner = styled.div`
   background-image: url(${({ bg }) => bg});
-  /* background-image: url(${config.bg}); */ 
+  /* background-image: url(${config.bg}); */
   background-size: cover;
-  background-position: 0% 34% ;
+  background-position: 0% 34%;
   height: 230px;
 `
 function Header() {
